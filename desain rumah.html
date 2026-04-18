@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumah Kebaya - Warisan Arsitektur Betawi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        /* ===== VARIABEL KHAS BETAWI ===== */
+        :root {
+            --betawi-red: #b22222;
+            --betawi-gold: #ffd700;
+            --betawi-brown: #8b4513;
+            --betawi-cream: #fffaf0;
+            --betawi-teal: #008080;
+            --betawi-dark: #2c1810;
+            --betawi-light: #f5f5dc;
+            --betawi-orange: #ff8c00;
+            --shadow-heavy: 0 15px 35px rgba(139, 69, 19, 0.3);
+            --shadow-light: 0 8px 20px rgba(139, 69, 19, 0.15);
+            --transition-slow: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --transition-fast: all 0.3s ease;
+            --border-pattern: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(178, 34, 34, 0.1) 10px, rgba(178, 34, 34, 0.1) 20px);
+        }
+        
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--betawi-cream);
+            color: var(--betawi-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b22222' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+                linear-gradient(135deg, var(--betawi-cream) 0%, #fff8f0 100%);
+        }
+        
+        /* ===== SKETCHFAB EMBED CONTAINER ===== */
+        .sketchfab-embed-container {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-heavy);
+            margin: 40px 0;
+            border: 3px solid var(--betawi-gold);
+            background: linear-gradient(135deg, #1a0f0a, #2c1810);
+        }
+        
+        .sketchfab-embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .model-info-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(44, 24, 16, 0.85);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--betawi-gold);
+            z-index: 10;
+        }
+        
+        .model-info-overlay h3 {
+            color: var(--betawi-gold);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .model-info-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .model-controls-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            background: rgba(44, 24, 16, 0.8);
+            padding: 15px 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--betawi-gold);
+        }
+        
+        .model-control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--betawi-red), var(--betawi-orange));
+            border: 2px solid var(--betawi-gold);
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+        
+        .model-control-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, var(--betawi-orange), var(--betawi-gold));
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* ===== MUSIC PLAYER BETAWI ===== */
+        .music-player-betawi {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--betawi-red), var(--betawi-orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(178, 34, 34, 0.4);
+            transition: var(--transition-slow);
+            animation: pulse 2s infinite;
+            border: 3px solid var(--betawi-gold);
+        }
+        
+        .music-player-betawi:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 15px 40px rgba(178, 34, 34, 0.6);
+        }
+        
+        .music-player-betawi.playing {
+            animation: spin 4s linear infinite, pulse 2s infinite;
+            background: linear-gradient(135deg, var(--betawi-gold), var(--betawi-orange));
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 10px 30px rgba(178, 34, 34, 0.4); }
+            50% { box-shadow: 0 15px 40px rgba(178, 34, 34, 0.6); }
+            100% { box-shadow: 0 10px 30px rgba(178, 34, 34, 0.4); }
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ===== DEKORASI LATAR YANG LEBIH KAYA ===== */
+        .betawi-ornament-left,
+        .betawi-ornament-right {
+            position: fixed;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+        
+        .betawi-ornament-left {
+            left: 0;
+            background: 
+                repeating-linear-gradient(90deg, 
+                    transparent, 
+                    transparent 20px, 
+                    var(--betawi-red) 20px, 
+                    var(--betawi-red) 25px),
+                repeating-linear-gradient(0deg, 
+                    transparent, 
+                    transparent 20px, 
+                    var(--betawi-gold) 20px, 
+                    var(--betawi-gold) 25px);
+        }
+        
+        .betawi-ornament-right {
+            right: 0;
+            background: 
+                repeating-linear-gradient(90deg, 
+                    transparent, 
+                    transparent 20px, 
+                    var(--betawi-teal) 20px, 
+                    var(--betawi-teal) 25px),
+                repeating-linear-gradient(0deg, 
+                    transparent, 
+                    transparent 20px, 
+                    var(--betawi-gold) 20px, 
+                    var(--betawi-gold) 25px);
+        }
+        
+        /* ===== ORNAMENT BATIK BERTEKNIK ===== */
+        .batik-pattern-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background-image: 
+                radial-gradient(circle at 25% 25%, var(--betawi-red) 2px, transparent 3px),
+                radial-gradient(circle at 75% 75%, var(--betawi-gold) 2px, transparent 3px),
+                radial-gradient(circle at 25% 75%, var(--betawi-teal) 2px, transparent 3px),
+                radial-gradient(circle at 75% 25%, var(--betawi-orange) 2px, transparent 3px);
+            background-size: 60px 60px;
+            opacity: 0.08;
+            z-index: 0;
+        }
+        
+        .batik-pattern-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background-image: 
+                radial-gradient(circle at 25% 25%, var(--betawi-red) 2px, transparent 3px),
+                radial-gradient(circle at 75% 75%, var(--betawi-gold) 2px, transparent 3px),
+                radial-gradient(circle at 25% 75%, var(--betawi-teal) 2px, transparent 3px),
+                radial-gradient(circle at 75% 25%, var(--betawi-orange) 2px, transparent 3px);
+            background-size: 60px 60px;
+            opacity: 0.08;
+            z-index: 0;
+            transform: rotate(180deg);
+        }
+        
+        /* ===== DEKORASI CORNER KHUSUS ===== */
+        .corner-floral {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            z-index: 0;
+        }
+        
+        .corner-floral:before {
+            content: '❁';
+            position: absolute;
+            font-size: 3rem;
+            color: var(--betawi-gold);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            opacity: 0.4;
+        }
+        
+        .corner-floral.tl { top: 20px; left: 20px; }
+        .corner-floral.tr { top: 20px; right: 20px; transform: scaleX(-1); }
+        .corner-floral.bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+        .corner-floral.br { bottom: 20px; right: 20px; transform: scale(-1, -1); }
+        
+        /* ===== GARIS PEMBATAS BERTEKNIK ===== */
+        .section-divider {
+            position: relative;
+            height: 60px;
+            margin: 40px 0;
+            overflow: hidden;
+        }
+        
+        .section-divider:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--betawi-red) 10%, 
+                var(--betawi-gold) 25%, 
+                var(--betawi-teal) 50%, 
+                var(--betawi-gold) 75%, 
+                var(--betawi-red) 90%, 
+                transparent 100%);
+            transform: translateY(-50%);
+        }
+        
+        .section-divider:after {
+            content: '✧ ✧ ✧';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--betawi-cream);
+            padding: 0 30px;
+            color: var(--betawi-red);
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* ===== ANIMASI TANAMAN HIAS ===== */
+        .betawi-plant {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            z-index: 0;
+            opacity: 0.15;
+        }
+        
+        .betawi-plant:before {
+            content: '🌿';
+            position: absolute;
+            font-size: 4rem;
+            transform: rotate(-30deg);
+        }
+        
+        .plant-left { left: 50px; bottom: 100px; }
+        .plant-right { right: 50px; bottom: 150px; transform: scaleX(-1); }
+        
+        /* ===== DEKORASI KHAS BETAWI ===== */
+        .betawi-border {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .betawi-border:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 8px solid transparent;
+            background: 
+                linear-gradient(var(--betawi-cream), var(--betawi-cream)) padding-box,
+                repeating-linear-gradient(45deg, var(--betawi-red), var(--betawi-gold) 10px, var(--betawi-teal) 20px) border-box;
+            border-radius: 15px;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .batik-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23b22222' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .gigi-balang-decoration {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: repeating-linear-gradient(90deg, 
+                var(--betawi-red), var(--betawi-red) 10px, 
+                var(--betawi-gold) 10px, var(--betawi-gold) 20px);
+            clip-path: polygon(0% 100%, 5% 0%, 10% 100%, 15% 0%, 20% 100%, 25% 0%, 30% 100%, 35% 0%, 40% 100%, 45% 0%, 50% 100%, 55% 0%, 60% 100%, 65% 0%, 70% 100%, 75% 0%, 80% 100%, 85% 0%, 90% 100%, 95% 0%, 100% 100%);
+            z-index: 2;
+        }
+        
+        /* ===== STYLE KHUSUS UNTUK FOTO ===== */
+        .photo-frame-betawi {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--betawi-cream), #fffaf0);
+            box-shadow: 
+                var(--shadow-heavy),
+                inset 0 0 30px rgba(178, 34, 34, 0.1);
+            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+            transition: var(--transition-slow);
+            border: 2px solid var(--betawi-gold);
+        }
+        
+        .photo-frame-betawi:hover {
+            transform: perspective(1000px) rotateX(0) rotateY(0) scale(1.02);
+            box-shadow: 
+                0 20px 50px rgba(178, 34, 34, 0.4),
+                inset 0 0 40px rgba(255, 215, 0, 0.2);
+        }
+        
+        .photo-frame-betawi:before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 3px double var(--betawi-red);
+            border-radius: 15px;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .photo-frame-betawi:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                transparent 30%, 
+                rgba(255, 215, 0, 0.1) 50%, 
+                transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        /* ===== CORNER ORNAMENTS ===== */
+        .corner-ornament {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            z-index: 3;
+        }
+        
+        .corner-ornament:before {
+            content: '✦';
+            position: absolute;
+            font-size: 1.8rem;
+            color: var(--betawi-gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .corner-ornament.tl { top: 10px; left: 10px; }
+        .corner-ornament.tr { top: 10px; right: 10px; }
+        .corner-ornament.bl { bottom: 10px; left: 10px; }
+        .corner-ornament.br { bottom: 10px; right: 10px; }
+        
+        /* ===== PHOTO STYLES ===== */
+        .photo-container {
+            position: relative;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 350px;
+            overflow: hidden;
+        }
+        
+        .photo-container img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            transition: var(--transition-slow);
+            filter: sepia(0.2) contrast(1.1) brightness(1.05);
+            border-radius: 8px;
+        }
+        
+        .photo-frame-betawi:hover .photo-container img {
+            transform: scale(1.08);
+            filter: sepia(0.1) contrast(1.15) brightness(1.1);
+        }
+        
+        /* ===== PHOTO CAPTION KHAS BETAWI ===== */
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, 
+                rgba(44, 24, 16, 0.95) 0%, 
+                rgba(44, 24, 16, 0.8) 50%, 
+                transparent 100%);
+            padding: 20px 25px;
+            transform: translateY(100%);
+            transition: var(--transition-slow);
+            z-index: 3;
+        }
+        
+        .photo-frame-betawi:hover .photo-caption {
+            transform: translateY(0);
+        }
+        
+        .photo-caption h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--betawi-gold);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .photo-caption p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            margin: 0;
+            font-style: italic;
+        }
+        
+        /* ===== TYPOGRAPHY KHAS ===== */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--betawi-dark);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .betawi-title {
+            background: linear-gradient(135deg, var(--betawi-red), var(--betawi-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--betawi-red), var(--betawi-gold));
+            border-radius: 3px;
+        }
+        
+        .section-subtitle {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: var(--betawi-brown);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        /* ===== CONTAINER & LAYOUT ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 100px 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 240, 0.95) 0%, 
+                rgba(255, 248, 240, 0.98) 100%),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23b22222' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, 
+                var(--betawi-red), var(--betawi-gold), var(--betawi-teal));
+        }
+        
+        /* ===== DETAIL CARDS KHAS BETAWI ===== */
+        .detail-card-betawi {
+            background: white;
+            border-radius: 15px;
+            padding: 35px 30px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        .detail-card-betawi:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--betawi-red), var(--betawi-gold), var(--betawi-teal));
+            border-radius: 17px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .detail-card-betawi:hover:before {
+            opacity: 1;
+        }
+        
+        .detail-card-betawi:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+        
+        /* ===== GALLERY KHAS BETAWI ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        /* ===== IMAGE-TEXT PAIR KHAS ===== */
+        .image-text-pair-betawi {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 120px;
+        }
+        
+        .pair-image-betawi {
+            flex: 1;
+            position: relative;
+        }
+        
+        .pair-content-betawi {
+            flex: 1;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pair-content-betawi:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--betawi-red), var(--betawi-gold));
+        }
+        
+        /* ===== BUTTON KHAS BETAWI ===== */
+        .btn-betawi {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--betawi-red), var(--betawi-orange));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-slow);
+            box-shadow: 0 10px 30px rgba(178, 34, 34, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-betawi:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .btn-betawi:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(178, 34, 34, 0.4);
+        }
+        
+        .btn-betawi:hover:before {
+            left: 100%;
+        }
+        
+        /* ===== FOOTER KHAS BETAWI ===== */
+        footer {
+            background: linear-gradient(135deg, var(--betawi-dark), #3a2418);
+            color: white;
+            padding: 80px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--betawi-red), var(--betawi-gold), var(--betawi-teal));
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .image-text-pair-betawi {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .betawi-ornament-left,
+            .betawi-ornament-right {
+                width: 80px;
+            }
+            
+            .sketchfab-embed-container {
+                height: 500px;
+            }
+            
+            .model-controls-overlay {
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 90%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 70px 0;
+            }
+            
+            .hero {
+                padding: 70px 0;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .music-player-betawi {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .sketchfab-embed-container {
+                height: 400px;
+            }
+            
+            .model-info-overlay {
+                max-width: 200px;
+                padding: 15px;
+                top: 10px;
+                right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .photo-container {
+                padding: 15px;
+                min-height: 250px;
+            }
+            
+            .photo-container img {
+                max-height: 220px;
+            }
+            
+            .betawi-ornament-left,
+            .betawi-ornament-right {
+                display: none;
+            }
+            
+            .sketchfab-embed-container {
+                height: 350px;
+            }
+            
+            .model-controls-overlay {
+                padding: 10px 15px;
+            }
+            
+            .model-control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* ===== UTILITIES ===== */
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mb-3 { margin-bottom: 3rem; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-3 { margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <!-- MUSIK BETAWI OTOMATIS -->
+    <audio id="betawi-music" loop>
+        <source src="musik.mp3" type="audio/mpeg">
+        <!-- Fallback musik khas Betawi/Jakarta -->
+    </audio>
+    
+    <!-- DEKORASI LATERAL -->
+    <div class="betawi-ornament-left"></div>
+    <div class="betawi-ornament-right"></div>
+    
+    <!-- DEKORASI TANAMAN HIAS -->
+    <div class="betawi-plant plant-left"></div>
+    <div class="betawi-plant plant-right"></div>
+    
+    <!-- DEKORASI BATIK -->
+    <div class="batik-pattern-top"></div>
+    <div class="batik-pattern-bottom"></div>
+    
+    <!-- DEKORASI CORNER FLORAL -->
+    <div class="corner-floral tl"></div>
+    <div class="corner-floral tr"></div>
+    <div class="corner-floral bl"></div>
+    <div class="corner-floral br"></div>
+    
+    <!-- PLAYER MUSIK -->
+    <div class="music-player-betawi" id="musicPlayer">
+        <i class="fas fa-music"></i>
+    </div>
+    
+    <!-- DEKORASI LATAR -->
+    <div class="batik-overlay"></div>
+    
+    <!-- HEADER HERO -->
+    <header class="hero">
+        <div class="gigi-balang-decoration"></div>
+        <div class="container">
+            <div style="display: flex; align-items: center; gap: 60px; flex-wrap: wrap;">
+                <div style="flex: 1;">
+                    <span class="section-subtitle"></span>
+                    <h1 class="betawi-title">Rumah Kebaya Betawi</h1>
+                    <p style="font-size: 1.2rem; color: var(--betawi-brown); margin-bottom: 2.5rem;">
+                        Simbol kebanggaan budaya Jakarta yang memadukan keindahan, fungsi, dan filosofi kehidupan masyarakat Betawi.
+                    </p>
+                    <a href="#3d-model" class="btn-betawi">
+                        <i class="fas fa-cube"></i>
+                        Lihat Model 3D
+                    </a>
+                </div>
+                
+                <!-- HERO PHOTO -->
+                <div style="flex: 1;">
+                    <div class="photo-frame-betawi">
+                        <div class="gigi-balang-decoration" style="top: 0;"></div>
+                        <div class="corner-ornament tl"></div>
+                        <div class="corner-ornament tr"></div>
+                        <div class="corner-ornament bl"></div>
+                        <div class="corner-ornament br"></div>
+                        
+                        <div class="photo-container">
+                            <img src="b.png" alt="Rumah Kebaya Betawi">
+                        </div>
+                        
+                        <div class="photo-caption">
+                            <h4>Rumah Kebaya Tradisional</h4>
+                            <p>Atap bergelombang menyerupai lipatan kebaya khas Betawi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- DIVIDER -->
+    <div class="section-divider"></div>
+    
+    <!-- 3D MODEL SECTION - SKETCHFAB EMBED -->
+    <section id="3d-model" class="section">
+        <div class="container">
+            <div class="text-center mb-3">
+                <span class="section-subtitle">Eksplorasi Digital</span>
+                <h2 class="betawi-title">Model 3D Interaktif dari Sketchfab</h2>
+                <p class="mb-3" style="max-width: 800px; margin: 0 auto;">
+                    Jelajahi detail arsitektur Rumah Kebaya Betawi secara mendalam dengan model 3D profesional yang dapat Anda putar, zoom, dan lihat dari berbagai sudut pandang.
+                </p>
+            </div>
+            
+            <!-- SKETCHFAB EMBED CONTAINER -->
+            <div class="sketchfab-embed-container">
+                <!-- Embed dari Sketchfab -->
+                <iframe 
+                    title="Rumah Kebaya Betawi 3D Model" 
+                    frameborder="0" 
+                    allowfullscreen 
+                    mozallowfullscreen="true" 
+                    webkitallowfullscreen="true" 
+                    allow="autoplay; fullscreen; xr-spatial-tracking" 
+                    xr-spatial-tracking 
+                    execution-while-out-of-viewport 
+                    execution-while-not-rendered 
+                    web-share 
+                    src="https://sketchfab.com/models/78aaf26028184721af0dc99b6cbb049e/embed?autospin=1&autostart=1&ui_controls=1&ui_infos=1&ui_stop=1&ui_watermark=1&ui_watermark_link=1&dnt=1">
+                </iframe>
+                
+                <div class="model-info-overlay">
+                    <h3><i class="fas fa-info-circle"></i> Panduan Interaksi 3D</h3>
+                    <p><strong>• Klik & drag:</strong> Putar model 360°</p>
+                    <p><strong>• Scroll mouse:</strong> Zoom in/out</p>
+                    <p><strong>• Shift + drag:</strong> Geser posisi</p>
+                    <p><strong>• Tombol kontrol:</strong> Ubah sudut pandang</p>
+                </div>
+                
+                <div class="model-controls-overlay">
+                    <button class="model-control-btn" onclick="setView('front')" title="Tampak Depan">
+                        <i class="fas fa-home"></i>
+                    </button>
+                    <button class="model-control-btn" onclick="setView('side')" title="Tampak Samping">
+                        <i class="fas fa-vector-square"></i>
+                    </button>
+                    <button class="model-control-btn" onclick="setView('top')" title="Tampak Atas">
+                        <i class="fas fa-mountain"></i>
+                    </button>
+                    <button class="model-control-btn" onclick="setView('perspective')" title="Sudut Perspektif">
+                        <i class="fas fa-cube"></i>
+                    </button>
+                    <button class="model-control-btn" onclick="toggleAnnotation()" title="Tampak/Sembunyikan Anotasi">
+                        <i class="fas fa-tag"></i>
+                    </button>
+                    <button class="model-control-btn" onclick="resetSketchfabView()" title="Reset Posisi">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <div style="background: linear-gradient(135deg, rgba(178, 34, 34, 0.1), rgba(255, 215, 0, 0.1)); padding: 25px; border-radius: 15px; border-left: 5px solid var(--betawi-red);">
+                    <p style="color: var(--betawi-brown); font-size: 1.1rem;">
+                        <i class="fas fa-lightbulb"></i> <strong>Model ini menunjukkan:</strong><br>
+                        • Atap bergelombang khas kebaya<br>
+                        • Ornamen Gigi Balang detail<br>
+                        • Struktur rumah panggung tradisional<br>
+                        • Material kayu dan anyaman asli Betawi
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- DIVIDER -->
+    <div class="section-divider"></div>
+    
+    <!-- DETAILS SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center mb-3">
+                <span class="section-subtitle">Keunikan Arsitektur</span>
+                <h2 class="betawi-title">Ciri Khas Rumah Kebaya</h2>
+            </div>
+            
+            <div class="gallery-grid mb-3">
+                <div class="detail-card-betawi">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--betawi-red), var(--betawi-orange)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: white; font-size: 1.8rem;">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Struktur Ruangan</h3>
+                    <p>Rumah Kebaya memiliki tiga bagian utama: Paseban (teras) untuk tamu, Panto (ruang dalam) untuk keluarga, dan Srondoyan (dapur) di belakang.</p>
+                </div>
+                
+                <div class="detail-card-betawi">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--betawi-gold), #ffa500); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: var(--betawi-dark); font-size: 1.8rem;">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3>Atap Khas Kebaya</h3>
+                    <p>Bentuk atap bergelombang menyerupai lipatan kebaya, fungsional untuk mengalirkan air hujan dan bernilai estetika tinggi.</p>
+                </div>
+                
+                <div class="detail-card-betawi">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--betawi-teal), #20b2aa); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: white; font-size: 1.8rem;">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Ornamen Gigi Balang</h3>
+                    <p>Hiasan kayu berbentuk segitiga runcing di tepi atap, simbol kejujuran dan pertahanan diri masyarakat Betawi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+               <!-- GALLERY SECTION -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <div class="text-center mb-3">
+                <span class="section-subtitle">Galeri Visual</span>
+                <h2 class="betawi-title">Detail Arsitektur</h2>
+            </div>
+            
+            <div class="gallery-grid">
+                <!-- Gallery Item 1 -->
+                <div class="photo-frame-betawi">
+                    <div class="corner-ornament tl"></div>
+                    <div class="corner-ornament tr"></div>
+                    <div class="corner-ornament bl"></div>
+                    <div class="corner-ornament br"></div>
+                    
+                    <div class="photo-container">
+                        <img src="o.png" alt="Denah Rumah Kebaya">
+                    </div>
+                    
+                    <div class="photo-caption">
+                        <h4>Denah Tata Ruang</h4>
+                        <p>Pola pembagian ruang tradisional masyarakat Betawi</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 -->
+                <div class="photo-frame-betawi">
+                    <div class="corner-ornament tl"></div>
+                    <div class="corner-ornament tr"></div>
+                    <div class="corner-ornament bl"></div>
+                    <div class="corner-ornament br"></div>
+                    
+                    <div class="photo-container">
+                        <img src="z.jpg" alt="Struktur Rumah Kebaya">
+                    </div>
+                    
+                    <div class="photo-caption">
+                        <h4>Struktur Konstruksi</h4>
+                        <p>Detail konstruksi kayu dengan teknik tradisional</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 -->
+                <div class="photo-frame-betawi">
+                    <div class="corner-ornament tl"></div>
+                    <div class="corner-ornament tr"></div>
+                    <div class="corner-ornament bl"></div>
+                    <div class="corner-ornament br"></div>
+                    
+                    <div class="photo-container">
+                        <img src="q.jpg" alt="Ornamen Gigi Balang">
+                    </div>
+                    
+                    <div class="photo-caption">
+                        <h4>Ornamen Gigi Balang</h4>
+                        <p>Simbol filosofis kejujuran masyarakat Betawi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- DIVIDER -->
+    <div class="section-divider"></div>
+    
+    <!-- IMAGE-TEXT PAIRS -->
+    <section class="section">
+        <div class="container">
+            <!-- Pair 1 -->
+            <div class="image-text-pair-betawi">
+                <div class="pair-image-betawi">
+                    <div class="photo-frame-betawi">
+                        <div class="corner-ornament tl"></div>
+                        <div class="corner-ornament tr"></div>
+                        <div class="corner-ornament bl"></div>
+                        <div class="corner-ornament br"></div>
+                        
+                        <div class="photo-container">
+                            <img src="o.png" alt="Denah Rumah">
+                        </div>
+                        
+                        <div class="photo-caption">
+                            <h4>Denah Rumah Kebaya</h4>
+                            <p>Tata ruang tradisional Betawi</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pair-content-betawi">
+                    <h3 class="betawi-title mb-2">Denah Rumah Kebaya</h3>
+                    <p>Denah ini menunjukkan tata letak ruangan dalam Rumah Kebaya tradisional Betawi, termasuk ruang tamu, kamar tidur, ruang keluarga, dapur, dan area lainnya yang disusun secara fungsional sesuai dengan kebutuhan hidup sehari-hari masyarakat Betawi.</p>
+                    <p>Secara keseluruhan, gambar-gambar ini menunjukkan bahwa Rumah Kebaya didesain untuk menyeimbangkan hubungan sosial (teras luas) dengan nilai moral keluarga (ornamen Gigi Balang dan pembagian ruang yang tertib).</p>
+                </div>
+            </div>
+            
+            <!-- Pair 2 -->
+            <div class="image-text-pair-betawi">
+                <div class="pair-image-betawi">
+                    <div class="photo-frame-betawi">
+                        <div class="corner-ornament tl"></div>
+                        <div class="corner-ornament tr"></div>
+                        <div class="corner-ornament bl"></div>
+                        <div class="corner-ornament br"></div>
+                        
+                        <div class="photo-container">
+                            <img src="z.jpg" alt="Struktur Rumah">
+                        </div>
+                        
+                        <div class="photo-caption">
+                            <h4>Struktur Bangunan</h4>
+                            <p>Konstruksi kayu tradisional</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pair-content-betawi">
+                    <h3 class="betawi-title mb-2">Struktur Rumah Kebaya</h3>
+                    <p><strong>Teras & Langkan:</strong> Memiliki teras luas untuk menjamu tamu, dibatasi oleh langkan (pagar kayu rendah) yang melambangkan keterbukaan sekaligus kesopanan.</p>
+                    <p><strong>Dinding:</strong> Terbuat dari panel kayu atau anyaman bambu. Dinding ini bersifat semi-permanen dengan banyak bukaan untuk sirkulasi udara maksimal.</p>
+                    <p><strong>Struktur:</strong> Berbentuk rumah panggung rendah yang ditopang tiang-tiang kayu kokoh di atas fondasi batu (umpak).</p>
+                </div>
+            </div>
+            
+            <!-- Pair 3 -->
+            <div class="image-text-pair-betawi">
+                <div class="pair-image-betawi">
+                    <div class="photo-frame-betawi">
+                        <div class="corner-ornament tl"></div>
+                        <div class="corner-ornament tr"></div>
+                        <div class="corner-ornament bl"></div>
+                        <div class="corner-ornament br"></div>
+                        
+                        <div class="photo-container">
+                            <img src="q.jpg" alt="Ornamen Gigi Balang">
+                        </div>
+                        
+                        <div class="photo-caption">
+                            <h4>Ornamen Khas</h4>
+                            <p>Gigi Balang - simbol filosofis</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pair-content-betawi">
+                    <h3 class="betawi-title mb-2">Keindahan Rumah Kebaya</h3>
+                    <p><strong>Definisi:</strong> Merupakan hiasan kayu papan yang dipotong dengan pola segitiga atau runcing berderet, menyerupai gigi belalang (balang).</p>
+                    <p><strong>Posisi:</strong> Terpasang pada bagian lisplang (tepi atap), seperti yang terlihat pada model 3D dan sketsa tangan di gambar.</p>
+                    <p><strong>Makna Filosofis:</strong> Melambangkan bahwa masyarakat Betawi menjunjung tinggi kejujuran dan kerja keras. Bentuknya yang runcing juga disimbolkan sebagai pagar pertahanan diri.</p>
+                </div>
+            </div>
+            
+            <!-- Pair 4 -->
+            <div class="image-text-pair-betawi">
+                <div class="pair-image-betawi">
+                    <div class="photo-frame-betawi">
+                        <div class="corner-ornament tl"></div>
+                        <div class="corner-ornament tr"></div>
+                        <div class="corner-ornament bl"></div>
+                        <div class="corner-ornament br"></div>
+                        
+                        <div class="photo-container">
+                            <img src="j.jpg" alt="Makna Simbol">
+                        </div>
+                        
+                        <div class="photo-caption">
+                            <h4>Makna Filosofis</h4>
+                            <p>Simbol kehidupan masyarakat Betawi</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pair-content-betawi">
+                    <h3 class="betawi-title mb-2">Makna & Simbol Rumah Kebaya</h3>
+                    <p>Rumah Kebaya memiliki keunikan pada bentuk atapnya yang menyerupai perisai, di mana jika dilihat dari sisi samping, atap tersebut tampak memiliki lipatan-lipatan yang menyerupai lipatan kain kebaya.</p>
+                    <p>Bentuk ini tidak hanya menjadi asal-usul nama "Rumah Kebaya", tetapi juga berfungsi secara fungsional untuk mengalirkan air hujan dengan cepat di iklim tropis.</p>
+                    <p>Selain itu, pada bagian tepi atap atau lisplang, terdapat ornamen Gigi Balang yang memiliki makna simbolis yang sangat dalam bagi masyarakat Betawi, yaitu melambangkan kejujuran, keuletan, dan kerja keras dalam menjalani kehidupan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-bottom: 60px;">
+                <div>
+                    <div style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--betawi-gold); margin-bottom: 20px;">
+                        Rumah Kebaya
+                    </div>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 25px;">
+                        Melestarikan warisan arsitektur tradisional Betawi untuk generasi mendatang.
+                    </p>
+                    <a href="#3d-model" class="btn-betawi" style="background: linear-gradient(135deg, var(--betawi-gold), var(--betawi-orange));">
+                        <i class="fas fa-cube"></i>
+                        Lihat 3D
+                    </a>
+                </div>
+                
+                <div>
+                    <h4 style="color: var(--betawi-gold); margin-bottom: 25px; font-size: 1.3rem;">Menu</h4>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 12px;"><a href="#" style="color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition-fast);"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                        <li style="margin-bottom: 12px;"><a href="#3d-model" style="color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition-fast);"><i class="fas fa-chevron-right"></i> Model 3D</a></li>
+                        <li style="margin-bottom: 12px;"><a href="#gallery" style="color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition-fast);"><i class="fas fa-chevron-right"></i> Galeri</a></li>
+                        <li style="margin-bottom: 12px;"><a href="#" style="color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition-fast);"><i class="fas fa-chevron-right"></i> Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: var(--betawi-gold); margin-bottom: 25px; font-size: 1.3rem;">Kontak</h4>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 12px; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 10px;"><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
+                        <li style="margin-bottom: 12px; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 10px;"><i class="fas fa-envelope"></i> smkn71jkt@gmail.com</li>
+                        <li style="margin-bottom: 12px; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 10px;"><i class="fas fa-phone"></i> </li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);">
+                <p>© 2025 SMKN 71 Jakarta - Rumah Kebaya. Seluruh hak cipta dilindungi.</p>
+                <p style="margin-top: 10px; color: var(--betawi-gold); font-style: italic;">Mari lestarikan warisan budaya Nusantara!</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // ===== SKETCHFAB EMBED FUNCTIONS =====
+        let sketchfabIframe;
+        let annotationsVisible = true;
+        
+        // Fungsi untuk mengontrol model Sketchfab
+        function setView(viewType) {
+            const iframe = document.querySelector('.sketchfab-embed-container iframe');
+            if (!iframe) return;
+            
+            // Kirim pesan ke iframe Sketchfab
+            const message = {
+                type: 'viewerAPI',
+                action: 'setView',
+                data: { view: viewType }
+            };
+            
+            iframe.contentWindow.postMessage(message, '*');
+            
+            // Tampilkan feedback
+            showFeedback(`Mengubah sudut pandang ke: ${getViewName(viewType)}`);
+        }
+        
+        function getViewName(viewType) {
+            const views = {
+                'front': 'Tampak Depan',
+                'side': 'Tampak Samping', 
+                'top': 'Tampak Atas',
+                'perspective': 'Sudut Perspektif'
+            };
+            return views[viewType] || viewType;
+        }
+        
+        function toggleAnnotation() {
+            annotationsVisible = !annotationsVisible;
+            const iframe = document.querySelector('.sketchfab-embed-container iframe');
+            
+            if (iframe) {
+                const message = {
+                    type: 'viewerAPI',
+                    action: 'toggleAnnotations',
+                    data: { visible: annotationsVisible }
+                };
+                iframe.contentWindow.postMessage(message, '*');
+            }
+            
+            // Update tombol
+            const btn = document.querySelector('[onclick="toggleAnnotation()"]');
+            if (btn) {
+                btn.innerHTML = annotationsVisible ? 
+                    '<i class="fas fa-tag"></i>' : 
+                    '<i class="fas fa-tag" style="opacity:0.5"></i>';
+                btn.title = annotationsVisible ? 
+                    'Sembunyikan Anotasi' : 
+                    'Tampilkan Anotasi';
+            }
+            
+            showFeedback(annotationsVisible ? 'Anotasi ditampilkan' : 'Anotasi disembunyikan');
+        }
+        
+        function resetSketchfabView() {
+            const iframe = document.querySelector('.sketchfab-embed-container iframe');
+            if (iframe) {
+                const message = {
+                    type: 'viewerAPI',
+                    action: 'resetView'
+                };
+                iframe.contentWindow.postMessage(message, '*');
+            }
+            showFeedback('Posisi model direset');
+        }
+        
+        function showFeedback(message) {
+            // Hapus feedback sebelumnya
+            const oldFeedback = document.querySelector('.viewer-feedback');
+            if (oldFeedback) oldFeedback.remove();
+            
+            // Buat feedback baru
+            const feedback = document.createElement('div');
+            feedback.className = 'viewer-feedback';
+            feedback.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            feedback.style.cssText = `
+                position: fixed;
+                bottom: 120px;
+                right: 30px;
+                background: linear-gradient(135deg, var(--betawi-red), var(--betawi-orange));
+                color: white;
+                padding: 12px 20px;
+                border-radius: 10px;
+                z-index: 1000;
+                font-size: 0.9rem;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+                border: 2px solid var(--betawi-gold);
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            // Hapus setelah 3 detik
+            setTimeout(() => {
+                feedback.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => feedback.remove(), 300);
+            }, 3000);
+        }
+        
+        // Tambahkan style untuk animasi feedback
+        const feedbackStyle = document.createElement('style');
+        feedbackStyle.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(feedbackStyle);
+        
+        // ===== MUSIK BETAWI OTOMATIS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const betawiMusic = document.getElementById('betawi-music');
+            const musicPlayer = document.getElementById('musicPlayer');
+            let musicPlaying = true;
+            
+            // Coba putar musik otomatis
+            const playMusic = () => {
+                betawiMusic.volume = 0.4;
+                betawiMusic.play().then(() => {
+                    musicPlayer.classList.add('playing');
+                }).catch(error => {
+                    console.log('Autoplay diblokir, perlu interaksi pengguna');
+                    musicPlaying = false;
+                    musicPlayer.innerHTML = '<i class="fas fa-play"></i>';
+                });
+            };
+            
+            // Mulai musik otomatis
+            setTimeout(playMusic, 1000);
+            
+            // Kontrol musik saat diklik
+            musicPlayer.addEventListener('click', function() {
+                if (musicPlaying) {
+                    betawiMusic.pause();
+                    musicPlayer.classList.remove('playing');
+                    musicPlayer.innerHTML = '<i class="fas fa-play"></i>';
+                    musicPlaying = false;
+                } else {
+                    betawiMusic.play();
+                    musicPlayer.classList.add('playing');
+                    musicPlayer.innerHTML = '<i class="fas fa-music"></i>';
+                    musicPlaying = true;
+                }
+            });
+            
+            // Volume control dengan scroll
+            musicPlayer.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    betawiMusic.volume = Math.min(1, betawiMusic.volume + 0.1);
+                } else {
+                    betawiMusic.volume = Math.max(0, betawiMusic.volume - 0.1);
+                }
+                
+                // Tampilkan indikator volume
+                const volumeIndicator = document.createElement('div');
+                volumeIndicator.innerHTML = `Volume: ${Math.round(betawiMusic.volume * 100)}%`;
+                volumeIndicator.style.cssText = `
+                    position: fixed;
+                    bottom: 100px;
+                    right: 30px;
+                    background: linear-gradient(135deg, var(--betawi-red), var(--betawi-orange));
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    z-index: 1000;
+                    font-size: 0.9rem;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                `;
+                document.body.appendChild(volumeIndicator);
+                
+                setTimeout(() => {
+                    volumeIndicator.style.transition = 'opacity 0.5s';
+                    volumeIndicator.style.opacity = '0';
+                    setTimeout(() => volumeIndicator.remove(), 500);
+                }, 1000);
+            });
+            
+            // Animasi untuk efek hover yang lebih hidup
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Animasi untuk photo frames
+            const photoFrames = document.querySelectorAll('.photo-frame-betawi');
+            photoFrames.forEach(frame => {
+                frame.style.opacity = '0';
+                frame.style.transform = 'translateY(40px) scale(0.95)';
+                frame.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(frame);
+            });
+            
+            // Animasi untuk detail cards
+            const detailCards = document.querySelectorAll('.detail-card-betawi');
+            detailCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+            
+            // Efek parallax ringan
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const heroTitle = document.querySelector('h1');
+                
+                if (heroTitle) {
+                    heroTitle.style.transform = `translateY(${scrolled * 0.05}px)`;
+                }
+                
+                // Animasi tanaman hias
+                const plants = document.querySelectorAll('.betawi-plant');
+                plants.forEach(plant => {
+                    plant.style.transform = `translateY(${scrolled * 0.03}px)`;
+                });
+            });
+            
+            // Smooth scroll untuk navigasi
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Efek typing untuk judul hero
+            const heroTitle = document.querySelector('h1.betawi-title');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                heroTitle.textContent = '';
+                let charIndex = 0;
+                
+                function typeWriter() {
+                    if (charIndex < originalText.length) {
+                        heroTitle.textContent += originalText.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeWriter, 80);
+                    }
+                }
+                
+                setTimeout(typeWriter, 300);
+            }
+            
+            // Efek hujan daun Betawi
+            function createFallingLeaf() {
+                const leaf = document.createElement('div');
+                leaf.innerHTML = '🍃';
+                leaf.style.cssText = `
+                    position: fixed;
+                    top: -50px;
+                    font-size: 1.5rem;
+                    opacity: 0.3;
+                    z-index: 0;
+                    pointer-events: none;
+                    animation: fall linear forwards;
+                `;
+                
+                const startX = Math.random() * window.innerWidth;
+                leaf.style.left = `${startX}px`;
+                leaf.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                leaf.style.animationDelay = `${Math.random() * 5}s`;
+                
+                document.body.appendChild(leaf);
+                
+                setTimeout(() => {
+                    leaf.remove();
+                }, 15000);
+            }
+            
+            // Tambahkan style untuk animasi daun
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fall {
+                    0% {
+                        transform: translateY(-50px) rotate(0deg);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 0.3;
+                    }
+                    90% {
+                        opacity: 0.2;
+                    }
+                    100% {
+                        transform: translateY(${window.innerHeight}px) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Buat beberapa daun
+            setInterval(createFallingLeaf, 1000);
+            
+            // Setup untuk kontrol Sketchfab
+            setupSketchfabControls();
+        });
+        
+        function setupSketchfabControls() {
+            // Simpan referensi iframe
+            sketchfabIframe = document.querySelector('.sketchfab-embed-container iframe');
+            
+            // Setup event listener untuk iframe
+            if (sketchfabIframe) {
+                sketchfabIframe.addEventListener('load', function() {
+                    console.log('Sketchfab model loaded');
+                    showFeedback('Model 3D siap dieksplorasi!');
+                });
+            }
+        }
+        
+        // Deteksi interaksi pengguna untuk memulai musik
+        document.addEventListener('click', function initAudio() {
+            const betawiMusic = document.getElementById('betawi-music');
+            const musicPlayer = document.getElementById('musicPlayer');
+            
+            if (betawiMusic.paused) {
+                betawiMusic.play().then(() => {
+                    musicPlayer.classList.add('playing');
+                });
+            }
+            
+            document.removeEventListener('click', initAudio);
+        });
+    </script>
+</body>
+</html>
